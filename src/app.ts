@@ -1,6 +1,6 @@
 import cors from 'cors';
 import express from 'express';
-import movimientoRoutes from './routes/movimientoRoutes';
+import movimientoRoutes from './routes/movimiento.routes';
 
 const app = express();
 

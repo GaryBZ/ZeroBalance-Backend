@@ -4,6 +4,21 @@ import {
   movimientoService,
 } from '../services/movimiento.service';
 
+export async function obtenerMovimientos(
+  _request: Request,
+  response: Response,
+): Promise<void> {
+  try {
+    const movimientos = await movimientoService.obtenerMovimientos();
+    response.status(200).json(movimientos);
+  } catch (error) {
+    console.error('Error fetching movimientos', error);
+    response.status(500).json({
+      error: 'No se pudieron obtener los movimientos',
+    });
+  }
+}
+
 export async function crearMovimiento(
   request: Request,
   response: Response,

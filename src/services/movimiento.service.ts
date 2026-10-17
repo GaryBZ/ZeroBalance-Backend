@@ -17,6 +17,14 @@ export interface Movimiento {
 }
 
 export const movimientoService = {
+  async obtenerMovimientos(): Promise<Movimiento[]> {
+    const result = await pool.query<Movimiento>(
+      'SELECT * FROM movimientos ORDER BY fecha DESC',
+    );
+
+    return result.rows;
+  },
+
   async crearMovimiento(input: CrearMovimientoInput): Promise<Movimiento> {
     const result = await pool.query<Movimiento>(
       `INSERT INTO movimientos (tipo, monto, descripcion, categoria_id)
