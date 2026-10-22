@@ -7,6 +7,8 @@ export interface CrearMovimientoInput {
   categoria_id?: number | null;
 }
 
+export type ActualizarMovimientoInput = CrearMovimientoInput;
+
 export interface Movimiento {
   id: number;
   tipo: 'ingreso' | 'gasto';
@@ -39,5 +41,35 @@ export const movimientoService = {
     );
 
     return result.rows[0];
+  },
+
+  async actualizarMovimiento(
+    id: number,
+    input: ActualizarMovimientoInput,
+  ): Promise<Movimiento> {
+    const result = await pool.query<Movimiento>(
+      `UPDATE movimientos
+       SET tipo = $1, monto = $2, descripcion = $3, categoria_id = $4
+       WHERE id = $5
+       RETURNING id, tipo, monto, descripcion, fecha, categoria_id`,
+      [input.tipo, input.monto, input.descripcion, input.categoria_id ?? null, id],
+    );
+
+    if (result.rows.length === 0) {
+      throw new Error('MOVIMIENTO_NOT_FOUND');
+    }
+
+    return result.rows[0];
+  },
+
+  async eliminarMovimiento(id: number): Promise<void> {
+    const result = await pool.query(
+      'DELETE FROM movimientos WHERE id = $1',
+      [id],
+    );
+
+    if (result.rowCount === 0) {
+      throw new Error('MOVIMIENTO_NOT_FOUND');
+    }
   },
 };
