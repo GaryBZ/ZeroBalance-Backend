@@ -119,7 +119,7 @@ export const objetivoService = {
       `UPDATE objetivos_ahorro
        SET nombre = $1, monto_meta = $2, monto_actual = $3,
            fecha_limite = $4, estado = $5
-       WHERE id = $4
+       WHERE id = $6
        RETURNING id, nombre, monto_meta, monto_actual, fecha_limite, estado,
                  0 AS promedio_mensual`,
       [input.nombre, input.monto_meta, input.monto_actual ?? 0,
