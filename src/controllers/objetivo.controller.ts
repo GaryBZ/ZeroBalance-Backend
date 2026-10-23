@@ -147,7 +147,8 @@ export async function actualizarObjetivo(
 
   if (!Number.isInteger(id) || id <= 0 || input === null) {
     response.status(400).json({
-      error: 'id, nombre, monto_meta y monto_actual deben ser válidos',
+      error:
+        'nombre, monto_meta, monto_actual, fecha_limite y estado deben ser válidos; monto_actual no puede superar monto_meta',
     });
     return;
   }
